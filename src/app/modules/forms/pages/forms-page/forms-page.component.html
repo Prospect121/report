@@ -1,0 +1,188 @@
+<section class="m-3">
+  <h2>OPORTUNIDADES DE MEJORA OPERATIVA 2023</h2>
+  <form class="" (ngSubmit)="sendReport()" [formGroup]="formReport">
+    <section>
+      <h4>Auditor</h4>
+      <section
+        *ngFor="let user of users | async | filterList : 'role' : role.auditor"
+        class="field-checkbox"
+      >
+        <p-radioButton
+          [inputId]="user.id + 'auditor'"
+          [value]="user"
+          formControlName="auditor"
+        ></p-radioButton>
+        <label [for]="user.id + 'auditor'" class="ml-2 font-medium">{{
+          user.fullName
+        }}</label>
+      </section>
+    </section>
+
+    <section class="mt-4">
+      <label class="mb-2 block font-bold" for="date"
+        >Fecha de ejecución *</label
+      >
+      <p-calendar
+        inputId="date"
+        formControlName="date"
+        [showIcon]="true"
+        [dateFormat]="'dd/mm/yy'"
+      ></p-calendar>
+    </section>
+
+    <section class="mt-4">
+      <label class="mb-2 block font-bold" for="identification"
+        >Número cedula de ciudadania *</label
+      >
+      <p-inputNumber
+        inputId="identification"
+        formControlName="identification"
+      ></p-inputNumber>
+    </section>
+
+    <section>
+      <h4>Zona</h4>
+      <section *ngFor="let area of areas | async" class="field-checkbox">
+        <p-radioButton
+          [inputId]="area.id + 'area'"
+          [value]="area"
+          formControlName="area"
+        ></p-radioButton>
+        <label [for]="area.id + 'area'" class="ml-2 font-medium">{{
+          area.name
+        }}</label>
+      </section>
+    </section>
+
+    <section>
+      <h4>Responsable plan de acción *</h4>
+      <section
+        *ngFor="
+          let user of users | async | filterList : 'role' : role.responsible
+        "
+        class="field-checkbox"
+      >
+        <p-radioButton
+          [inputId]="user.id + 'responsible'"
+          [value]="user"
+          formControlName="responsible"
+        ></p-radioButton>
+        <label [for]="user.id + 'responsible'" class="ml-2 font-medium">{{
+          user.fullName
+        }}</label>
+      </section>
+    </section>
+
+    <section class="mt-4">
+      <label class="mb-2 block font-bold" for="cdaCode"
+        >Código del CDA o subproceso *</label
+      >
+      <input
+        pInputText
+        type="text"
+        class="p-inputtext-sm"
+        formControlName="cdaCode"
+      />
+    </section>
+
+    <section class="mt-4">
+      <label class="mb-2 block font-bold" for="pdvCode"
+        >Código PDV o subproceso *</label
+      >
+      <input
+        pInputText
+        type="text"
+        class="p-inputtext-sm"
+        formControlName="pdvCode"
+      />
+    </section>
+
+    <section>
+      <h4>Concepto *</h4>
+      <section *ngFor="let concept of concepts | async" class="field-checkbox">
+        <p-radioButton
+          [inputId]="concept.id + 'concept'"
+          [value]="concept"
+          formControlName="concept"
+        ></p-radioButton>
+        <label [for]="concept.id + 'concept'" class="ml-2 font-medium">{{
+          concept.name
+        }}</label>
+      </section>
+    </section>
+
+    <section class="mt-4">
+      <label class="mb-2 block font-bold" for="improvement"
+        >Oportunidad de mejora *</label
+      >
+      <textarea
+        class="mb-2 block font-bold p-inputtext-sm"
+        rows="4"
+        cols="40"
+        formControlName="improvement"
+        pInputTextarea
+      ></textarea>
+    </section>
+
+    <section class="mt-4">
+      <label class="mb-2 block font-bold" for="value">Valor *</label>
+      <input
+        pInputText
+        type="text"
+        class="p-inputtext-sm"
+        formControlName="value"
+      />
+    </section>
+
+    <section>
+      <h4>Actividad *</h4>
+      <section *ngFor="let activity of activities" class="field-checkbox">
+        <p-radioButton
+          [inputId]="activity.enum"
+          [value]="activity"
+          formControlName="activity"
+        ></p-radioButton>
+        <label [for]="activity.enum" class="ml-2 font-medium">{{
+          activity.name
+        }}</label>
+      </section>
+    </section>
+
+    <section class="mt-4">
+      <label class="mb-2 block font-bold" for="followUp"
+        >Plan de acción y/o seguimiento *</label
+      >
+      <textarea
+        class="mb-2 block font-bold p-inputtext-sm"
+        rows="4"
+        cols="40"
+        formControlName="followUp"
+        pInputTextarea
+      ></textarea>
+    </section>
+
+    <section>
+      <h4>Estado de La Auditoría *</h4>
+      <section *ngFor="let auditState of auditStatus" class="field-checkbox">
+        <p-radioButton
+          [inputId]="auditState.enum"
+          [value]="auditState"
+          formControlName="status"
+        ></p-radioButton>
+        <label [for]="auditState.enum" class="ml-2 font-medium">{{
+          auditState.name
+        }}</label>
+      </section>
+    </section>
+
+    <section class="card flex justify-content-center">
+      <button
+        pButton
+        pRipple
+        [disabled]="formReport.invalid"
+        label="Enviar"
+        class="p-button-success"
+      ></button>
+    </section>
+  </form>
+</section>
