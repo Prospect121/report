@@ -12,10 +12,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('@modules/forms/forms.module').then((m) => m.FormsModule),
   },
-  {
-    path: '**',
-    redirectTo: '/forms',
-  },
+  { path: '**', redirectTo: 'error/404' },
 ];
 
 @NgModule({

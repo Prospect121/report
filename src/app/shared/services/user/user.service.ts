@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IUser } from '@shared/models';
 import { APIData } from '../api-data';
 import { MessageService } from 'primeng/api';
@@ -21,7 +21,41 @@ export class UserService extends APIData<IUser> {
   }
 
   override get(): Observable<Array<IUser>> {
-    return super.get();
+    return of([
+      {
+        id: 1,
+        username: 'Erick1',
+        password: '12345',
+        email: 'erick@gmail.com',
+        role: 'AUDITOR',
+        status: 'ACTIVE',
+        firstName: 'erick',
+        lastName: 'nieto',
+        fullName: 'erick nieto',
+      },
+      {
+        id: 2,
+        username: 'Juan1',
+        password: '12345',
+        email: 'erick@gmail.com',
+        role: 'AUDITOR',
+        status: 'ACTIVE',
+        firstName: 'Juan',
+        lastName: 'nieto',
+        fullName: 'Juan nieto',
+      },
+      {
+        id: 2,
+        username: 'Juan1',
+        password: '12345',
+        email: 'erick@gmail.com',
+        role: 'RESPONSIBLE',
+        status: 'ACTIVE',
+        firstName: 'Juan',
+        lastName: 'nieto',
+        fullName: 'Juan nieto',
+      },
+    ]); //super.get();
   }
 
   override getById(id: number): Observable<IUser> {

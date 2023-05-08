@@ -1,0 +1,19 @@
+.is__invalid-input {
+  border-color: #e11d48;
+}
+
+.is__invalid-error {
+  margin-left: 1rem;
+  font-size: small;
+  font-weight: 700;
+  color: #e11d48;
+}
+::ng-deep {
+  .p-autocomplete-input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+  .p-calendar-w-btn {
+    min-width: 100%;
+  }
+}

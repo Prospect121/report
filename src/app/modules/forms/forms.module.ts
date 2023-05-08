@@ -12,6 +12,7 @@ import { FilterListPipeModule } from '@shared/pipes/filter-list/order-list.modul
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [FormsPageComponent],
@@ -26,6 +27,7 @@ import { ButtonModule } from 'primeng/button';
     InputTextModule,
     InputTextareaModule,
     ButtonModule,
+    AutoCompleteModule,
   ],
 })
 export class FormsModule {}

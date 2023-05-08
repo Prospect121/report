@@ -8,7 +8,7 @@ import { ConceptService } from '@shared/services/concept/concept.service';
 import { ReportService } from '@shared/services/report/report.service';
 import { UserService } from '@shared/services/user/user.service';
 import { MessageService } from 'primeng/api';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-forms-page',
@@ -17,13 +17,22 @@ import { EMPTY, Observable } from 'rxjs';
 })
 export class FormsPageComponent implements OnInit {
   formReport: FormGroup = new FormGroup({});
-  users: Observable<Array<IUser>> = EMPTY;
+  users: Array<IUser> = [];
+
   usersResponsible: Observable<Array<IUser>> = EMPTY;
-  areas: Observable<Array<IArea>> = EMPTY;
-  concepts: Observable<Array<IConcept>> = EMPTY;
+  concepts: Array<IConcept> = [];
+  filteredConcepts: Array<IConcept> = [];
+
+  areas: Array<IArea> = [];
+  filteredAreas: Array<IArea> = [];
+
+  filteredAuditors: Array<IUser> = [];
+  filteredResponsible: Array<IUser> = [];
+
   activities = ACTIVITIES;
   auditStatus = AUDIT_STATUS;
   role = Role;
+  submitted = false;
 
   constructor(
     private _reportService: ReportService,
@@ -33,10 +42,24 @@ export class FormsPageComponent implements OnInit {
     private _messageService: MessageService
   ) {}
 
+  get f() {
+    return this.formReport.controls;
+  }
+
   ngOnInit(): void {
-    this.users = this._userService.get();
-    this.areas = this._areaService.get();
-    this.concepts = this._conceptService.get();
+    this._userService.get().subscribe((item) => {
+      this.users = item;
+      this.filteredAuditors = item;
+      this.filteredResponsible = item;
+    });
+    this._areaService.get().subscribe((item) => {
+      this.areas = item;
+      this.filteredAreas = item;
+    });
+    this._conceptService.get().subscribe((item) => {
+      this.concepts = item;
+      this.filteredConcepts = item;
+    });
 
     this.formReport = new FormGroup({
       id: new FormControl(0),
@@ -57,6 +80,7 @@ export class FormsPageComponent implements OnInit {
   }
 
   sendReport(): void {
+    this.submitted = true;
     const value = this.formReport.value;
     const body: IReport = {
       id: value.id,
@@ -93,5 +117,39 @@ export class FormsPageComponent implements OnInit {
       summary: title,
       detail: msj,
     });
+  }
+
+  filterAuditor(event: any) {
+    this.filteredAuditors = this.filters(event, this.users, 'fullName');
+  }
+
+  filterArea(event: any) {
+    this.filteredAreas = this.filters(event, this.areas, 'name');
+  }
+
+  filterResponsible(event: any) {
+    this.filteredResponsible = this.filters(event, this.users, 'fullName');
+  }
+
+  filterConcept(event: any) {
+    this.filteredConcepts = this.filters(event, this.concepts, 'name');
+  }
+
+  filters(event: any, listData: any[], nameFieldFilter: string) {
+    {
+      let filtered: any[] = [];
+      let query = event.query;
+
+      for (let i = 0; i < listData?.length; i++) {
+        let item = listData[i];
+        if (
+          item[nameFieldFilter]?.toLowerCase()?.indexOf(query?.toLowerCase()) ==
+          0
+        ) {
+          filtered.push(item);
+        }
+      }
+      return filtered;
+    }
   }
 }

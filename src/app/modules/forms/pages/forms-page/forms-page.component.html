@@ -1,188 +1,242 @@
-<section class="m-3">
-  <h2>OPORTUNIDADES DE MEJORA OPERATIVA 2023</h2>
-  <form class="" (ngSubmit)="sendReport()" [formGroup]="formReport">
-    <section>
-      <h4>Auditor</h4>
-      <section
-        *ngFor="let user of users | async | filterList : 'role' : role.auditor"
-        class="field-checkbox"
-      >
-        <p-radioButton
-          [inputId]="user.id + 'auditor'"
-          [value]="user"
+<section class="flex flex-column align-items-center mb-6 mx-2">
+  <h2 class="text-center">OPORTUNIDADES DE MEJORA OPERATIVA 2023</h2>
+  <form
+    class="flex flex-wrap gap-4 column-gap-8 w-10 justify-content-start my-4"
+    (ngSubmit)="sendReport()"
+    [formGroup]="formReport"
+  >
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <p-autoComplete
+          inputId="auditor"
           formControlName="auditor"
-        ></p-radioButton>
-        <label [for]="user.id + 'auditor'" class="ml-2 font-medium">{{
-          user.fullName
-        }}</label>
-      </section>
-    </section>
+          [suggestions]="filteredAuditors | filterList : 'role' : role.auditor"
+          (completeMethod)="filterAuditor($event)"
+          styleClass="w-full border-round"
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['auditor'].errors
+          }"
+          field="fullName"
+          [dropdown]="true"
+        ></p-autoComplete>
+        <label class="text-gray-900 text-lg" for="auditor">Auditor *</label>
+      </span>
+    </div>
 
-    <section class="mt-4">
-      <label class="mb-2 block font-bold" for="date"
-        >Fecha de ejecución *</label
-      >
-      <p-calendar
-        inputId="date"
-        formControlName="date"
-        [showIcon]="true"
-        [dateFormat]="'dd/mm/yy'"
-      ></p-calendar>
-    </section>
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <p-calendar
+          inputId="date"
+          formControlName="date"
+          [showIcon]="true"
+          [dateFormat]="'dd/mm/yy'"
+        ></p-calendar>
+        <label class="text-gray-900 text-lg" for="date"
+          >Fecha de ejecución *</label
+        >
+      </span>
+    </div>
 
-    <section class="mt-4">
-      <label class="mb-2 block font-bold" for="identification"
-        >Número cedula de ciudadania *</label
-      >
-      <p-inputNumber
-        inputId="identification"
-        formControlName="identification"
-      ></p-inputNumber>
-    </section>
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <p-inputNumber
+          inputId="identification"
+          formControlName="identification"
+        ></p-inputNumber>
+        <label class="text-gray-900 text-lg" for="date"
+          >Número cedula de ciudadania *</label
+        >
+      </span>
+    </div>
 
-    <section>
-      <h4>Zona</h4>
-      <section *ngFor="let area of areas | async" class="field-checkbox">
-        <p-radioButton
-          [inputId]="area.id + 'area'"
-          [value]="area"
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <p-autoComplete
+          inputId="area"
           formControlName="area"
-        ></p-radioButton>
-        <label [for]="area.id + 'area'" class="ml-2 font-medium">{{
-          area.name
-        }}</label>
-      </section>
-    </section>
+          [suggestions]="filteredAreas"
+          (completeMethod)="filterArea($event)"
+          styleClass="w-full"
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['area'].errors
+          }"
+          field="name"
+          [dropdown]="true"
+        ></p-autoComplete>
+        <label class="text-gray-900 text-lg" for="area">Zona *</label>
+      </span>
+    </div>
 
-    <section>
-      <h4>Responsable plan de acción *</h4>
-      <section
-        *ngFor="
-          let user of users | async | filterList : 'role' : role.responsible
-        "
-        class="field-checkbox"
-      >
-        <p-radioButton
-          [inputId]="user.id + 'responsible'"
-          [value]="user"
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <p-autoComplete
+          inputId="responsible"
           formControlName="responsible"
-        ></p-radioButton>
-        <label [for]="user.id + 'responsible'" class="ml-2 font-medium">{{
-          user.fullName
-        }}</label>
-      </section>
-    </section>
+          [suggestions]="
+            filteredResponsible | filterList : 'role' : role.responsible
+          "
+          (completeMethod)="filterResponsible($event)"
+          styleClass="w-full border-round"
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['responsible'].errors
+          }"
+          field="fullName"
+          [dropdown]="true"
+        ></p-autoComplete>
+        <label class="text-gray-900 text-lg" for="responsible"
+          >Responsable plan de acción *</label
+        >
+      </span>
+    </div>
 
-    <section class="mt-4">
-      <label class="mb-2 block font-bold" for="cdaCode"
-        >Código del CDA o subproceso *</label
-      >
-      <input
-        pInputText
-        type="text"
-        class="p-inputtext-sm"
-        formControlName="cdaCode"
-      />
-    </section>
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <input
+          pInputText
+          type="text"
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['cdaCode'].errors
+          }"
+          formControlName="cdaCode"
+          inputId="cdaCode"
+        />
+        <label class="text-gray-900 text-lg" for="cdaCode"
+          >Código del CDA o subproceso *</label
+        >
+      </span>
+    </div>
 
-    <section class="mt-4">
-      <label class="mb-2 block font-bold" for="pdvCode"
-        >Código PDV o subproceso *</label
-      >
-      <input
-        pInputText
-        type="text"
-        class="p-inputtext-sm"
-        formControlName="pdvCode"
-      />
-    </section>
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <input
+          pInputText
+          type="text"
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['pdvCode'].errors
+          }"
+          formControlName="pdvCode"
+          inputId="pdvCode"
+        />
+        <label class="text-gray-900 text-lg" for="pdvCode"
+          >Código PDV o subproceso *</label
+        >
+      </span>
+    </div>
 
-    <section>
-      <h4>Concepto *</h4>
-      <section *ngFor="let concept of concepts | async" class="field-checkbox">
-        <p-radioButton
-          [inputId]="concept.id + 'concept'"
-          [value]="concept"
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <p-autoComplete
+          inputId="concept"
           formControlName="concept"
-        ></p-radioButton>
-        <label [for]="concept.id + 'concept'" class="ml-2 font-medium">{{
-          concept.name
-        }}</label>
-      </section>
-    </section>
+          [suggestions]="filteredConcepts"
+          (completeMethod)="filterConcept($event)"
+          styleClass="w-full"
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['concept'].errors
+          }"
+          field="name"
+          [dropdown]="true"
+        ></p-autoComplete>
+        <label class="text-gray-900 text-lg" for="concept">Concepto *</label>
+      </span>
+    </div>
 
-    <section class="mt-4">
-      <label class="mb-2 block font-bold" for="improvement"
-        >Oportunidad de mejora *</label
-      >
-      <textarea
-        class="mb-2 block font-bold p-inputtext-sm"
-        rows="4"
-        cols="40"
-        formControlName="improvement"
-        pInputTextarea
-      ></textarea>
-    </section>
+    <div class="w-full md:max-w-full p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <textarea
+          class="mb-2 block font-bold p-inputtext-sm"
+          rows="4"
+          cols="40"
+          formControlName="improvement"
+          pInputTextarea
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['improvement'].errors
+          }"
+        ></textarea>
+        <label class="text-gray-900 text-lg" for="improvement"
+          >Oportunidad de mejora *</label
+        >
+      </span>
+    </div>
 
-    <section class="mt-4">
-      <label class="mb-2 block font-bold" for="value">Valor *</label>
-      <input
-        pInputText
-        type="text"
-        class="p-inputtext-sm"
-        formControlName="value"
-      />
-    </section>
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <input
+          pInputText
+          type="text"
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['value'].errors
+          }"
+          formControlName="value"
+          inputId="value"
+        />
+        <label class="text-gray-900 text-lg" for="value">Valor *</label>
+      </span>
+    </div>
 
-    <section>
-      <h4>Actividad *</h4>
-      <section *ngFor="let activity of activities" class="field-checkbox">
-        <p-radioButton
-          [inputId]="activity.enum"
-          [value]="activity"
-          formControlName="activity"
-        ></p-radioButton>
-        <label [for]="activity.enum" class="ml-2 font-medium">{{
-          activity.name
-        }}</label>
-      </section>
-    </section>
+    <div class="w-full md:max-w-20rem p-inputgroup my-2 flex flex-column">
+      <span class="text-gray-900 text-lg mb-2">Actividad *</span>
+      <span class="flex">
+        <section *ngFor="let activity of activities" class="field-checkbox">
+          <p-radioButton
+            [inputId]="activity.enum"
+            [value]="activity"
+            formControlName="activity"
+            [ngClass]="{
+              'ng-invalid ng-dirty': submitted && f['activity'].errors
+            }"
+          ></p-radioButton>
+          <label [for]="activity.enum" class="mx-2 font-normal text-gray-800">{{
+            activity.name
+          }}</label>
+        </section>
+      </span>
+    </div>
 
-    <section class="mt-4">
-      <label class="mb-2 block font-bold" for="followUp"
-        >Plan de acción y/o seguimiento *</label
-      >
-      <textarea
-        class="mb-2 block font-bold p-inputtext-sm"
-        rows="4"
-        cols="40"
-        formControlName="followUp"
-        pInputTextarea
-      ></textarea>
-    </section>
+    <div class="w-full md:max-w-full p-inputgroup my-2 flex flex-column">
+      <span class="p-float-label">
+        <textarea
+          class="mb-2 block font-bold p-inputtext-sm"
+          rows="4"
+          cols="40"
+          formControlName="followUp"
+          pInputTextarea
+          [ngClass]="{
+            'ng-invalid ng-dirty': submitted && f['followUp'].errors
+          }"
+        ></textarea>
+        <label class="text-gray-900 text-lg" for="followUp"
+          >Plan de acción y/o seguimiento *</label
+        >
+      </span>
+    </div>
 
-    <section>
-      <h4>Estado de La Auditoría *</h4>
-      <section *ngFor="let auditState of auditStatus" class="field-checkbox">
-        <p-radioButton
-          [inputId]="auditState.enum"
-          [value]="auditState"
-          formControlName="status"
-        ></p-radioButton>
-        <label [for]="auditState.enum" class="ml-2 font-medium">{{
-          auditState.name
-        }}</label>
-      </section>
-    </section>
-
-    <section class="card flex justify-content-center">
-      <button
-        pButton
-        pRipple
-        [disabled]="formReport.invalid"
-        label="Enviar"
-        class="p-button-success"
-      ></button>
-    </section>
+    <div class="w-full md:max-w-full p-inputgroup my-2 flex flex-column">
+      <span class="text-gray-900 text-lg mb-2">Estado de La Auditoría *</span>
+      <span class="flex flex-wrap">
+        <section *ngFor="let auditState of auditStatus" class="field-checkbox">
+          <p-radioButton
+            [inputId]="auditState.enum"
+            [value]="auditState"
+            formControlName="status"
+            [ngClass]="{
+              'ng-invalid ng-dirty': submitted && f['status'].errors
+            }"
+          ></p-radioButton>
+          <label
+            [for]="auditState.enum"
+            class="mx-2 font-normal text-gray-800"
+            >{{ auditState.name }}</label
+          >
+        </section>
+      </span>
+    </div>
   </form>
+  <p-button
+    inputId="send-report"
+    styleClass="w-22rem  flex justify-content-center border-round bg-primary-500 hover:bg-primary-600"
+    label="Enviar"
+    (click)="sendReport()"
+  >
+  </p-button>
 </section>

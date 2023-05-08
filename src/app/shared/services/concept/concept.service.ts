@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IConcept } from '@shared/models';
 import { APIData } from '../api-data';
 import { MessageService } from 'primeng/api';
@@ -21,6 +21,15 @@ export class ConceptService extends APIData<IConcept> {
   }
 
   override get(): Observable<Array<IConcept>> {
-    return super.get();
+    return of([
+      {
+        id: 1,
+        name: 'concepto uno',
+      },
+      {
+        id: 2,
+        name: 'erick',
+      },
+    ]); //super.get();
   }
 }
